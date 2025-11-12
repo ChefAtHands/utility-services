@@ -1,11 +1,9 @@
 package com.chefathands.ingredient.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+ 
+
 
 @Entity
 @Table(name = "ingredients")
@@ -14,6 +12,7 @@ public class Ingredient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @NotBlank(message = "name must not be blank")
     @Column(unique = true, nullable = false)
     private String name;
     

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.chefathands.ingredient.model.Ingredient;
 import com.chefathands.ingredient.repository.IngredientRepository;
+import com.chefathands.ingredient.exception.ResourceNotFoundException;
 
 @Service
 public class IngredientService {
@@ -15,16 +16,13 @@ public class IngredientService {
         this.repo = repo; 
     }
 
-    public List<Ingredient> list() { 
-        return repo.findAll(); 
-    }
-
     public Ingredient save(Ingredient i) { 
         return repo.save(i); 
     }
     
-    public Ingredient findById(Long id) {
-        return repo.findById(id).orElseThrow();
+      public Ingredient findById(Long id) {
+        return repo.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Ingredient not found with id " + id));
     }
 
     public List<Ingredient> findAll() {
@@ -34,4 +32,5 @@ public class IngredientService {
     public List<Ingredient> findByNameContaining(String name) {
         return repo.findByNameContainingIgnoreCase(name);
     }
+
 }
