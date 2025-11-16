@@ -1,1 +1,4 @@
-mvn archetype:generate -DgroupId=com.chefathands.utility -DartifactId=utility-services -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+</configuration>
