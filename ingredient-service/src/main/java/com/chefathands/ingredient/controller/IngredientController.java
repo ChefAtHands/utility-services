@@ -37,4 +37,12 @@ public class IngredientController {
         Ingredient saved = service.save(ingredient);
         return ResponseEntity.created(URI.create("/api/ingredients/" + saved.getId())).body(saved);
     }
+
+    //delete ingredient by id
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.findById(id); // Check if exists
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }

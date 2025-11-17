@@ -33,4 +33,8 @@ public class IngredientService {
         return repo.findByNameContainingIgnoreCase(name);
     }
 
+    public void deleteById(Long id) {
+        repo.deleteById(id);
+    }
+
 }
