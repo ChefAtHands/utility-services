@@ -20,7 +20,7 @@ public class IngredientController {
 
     //search by id
     @GetMapping("/{id}")
-    public ResponseEntity<Ingredient> getById(@PathVariable Integer id) {
+    public ResponseEntity<Ingredient> getById(@PathVariable Long id) {
         return ResponseEntity.ok(service.findById(id));
     }
 
@@ -40,7 +40,7 @@ public class IngredientController {
 
     //delete ingredient by id
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.findById(id); // Check if exists
         service.deleteById(id);
         return ResponseEntity.noContent().build();

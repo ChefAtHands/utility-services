@@ -7,7 +7,7 @@
     <groupId>com.chefathands</groupId>
     <artifactId>chefathands-parent</artifactId>
     <version>0.1.0-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
+    <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
   <artifactId>utility-services</artifactId>
