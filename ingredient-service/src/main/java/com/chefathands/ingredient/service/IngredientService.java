@@ -20,7 +20,7 @@ public class IngredientService {
         return repo.save(i); 
     }
     
-      public Ingredient findById(Long id) {
+      public Ingredient findById(Integer id) {
         return repo.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Ingredient not found with id " + id));
     }
@@ -33,7 +33,7 @@ public class IngredientService {
         return repo.findByNameContainingIgnoreCase(name);
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
         repo.deleteById(id);
     }
 
