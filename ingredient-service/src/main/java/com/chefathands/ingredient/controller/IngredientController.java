@@ -6,7 +6,7 @@ import java.net.URI;
 import java.util.List;
 import com.chefathands.ingredient.service.IngredientService;
 import com.chefathands.ingredient.model.Ingredient;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/ingredients")

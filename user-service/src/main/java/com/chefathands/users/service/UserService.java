@@ -9,14 +9,17 @@ import com.chefathands.users.repository.UserRepository;
 import com.chefathands.users.util.PasswordHasher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.chefathands.logging.service.LogService;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private final LogService logService;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, LogService logService) {
         this.userRepository = userRepository;
+        this.logService = logService;
     }
 
     /**
@@ -26,6 +29,7 @@ public class UserService {
     public UserResponse registerUser(RegisterRequest request) {
         // Check if username already exists
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
+            logService.logWarn("Attempted registration with existing username" + request.getUsername());
             throw new UsernameAlreadyExistsException(request.getUsername());
         }
 
@@ -39,6 +43,7 @@ public class UserService {
         user.setEmail(request.getEmail());
         
         User saved = userRepository.save(user);
+        logService.logInfo("New user registered: " + saved.getUsername() + "(id= " + saved.getId() + ")");
         
         return mapToUserResponse(saved);
     }
@@ -49,13 +54,18 @@ public class UserService {
     public LoginResponse login(LoginRequest request) {
         // Find user by username
         User user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new InvalidCredentialsException());
+                .orElseThrow(() -> {
+                    logService.logError("Login failed: username not found -> " + request.getUsername());
+                    return new InvalidCredentialsException();
+                });
 
         // Verify password
         if (!PasswordHasher.verifyPassword(request.getPassword(), user.getPasswordHash())) {
+            logService.logError("Login failed: invalid passwordd for user -> " + request.getUsername());
             throw new InvalidCredentialsException();
         }
 
+        logService.logInfo("User logged in successfully: " + user.getUsername());
         return new LoginResponse(
             user.getId(),
             user.getUsername(),
@@ -68,8 +78,12 @@ public class UserService {
      */
     public UserResponse getUserById(Integer id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(id));
+                .orElseThrow(() -> {
+                    logService.logError("User not found: " + id);
+                    return new UserNotFoundException(id);
+                });
         
+        logService.logInfo("User found by id");
         return mapToUserResponse(user);
     }
 
@@ -84,6 +98,7 @@ public class UserService {
         // Update username if provided and check uniqueness
         if (request.getUsername() != null && !request.getUsername().equals(user.getUsername())) {
             if (userRepository.findByUsername(request.getUsername()).isPresent()) {
+                logService.logError("Username already exists: " + request.getUsername());
                 throw new UsernameAlreadyExistsException(request.getUsername());
             }
             user.setUsername(request.getUsername());
@@ -101,6 +116,7 @@ public class UserService {
         }
 
         User updated = userRepository.save(user);
+        logService.logInfo("User updated successfully: " + user.getUsername());
         return mapToUserResponse(updated);
     }
 
@@ -110,6 +126,7 @@ public class UserService {
     @Transactional
     public void deleteUser(Integer id) {
         if (!userRepository.existsById(id)) {
+            logService.logError("User ist found: " + id);
             throw new UserNotFoundException(id);
         }
         userRepository.deleteById(id);

@@ -7,15 +7,16 @@ import jakarta.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "UserID")
     private Integer id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "Name", nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
+    @Column(name = "PasswordHash",nullable = false)
     private String passwordHash;
 
-    @Column(nullable = false)
+    @Column(name = "Email",nullable = false)
     private String email;
 
     // Getters and Setters

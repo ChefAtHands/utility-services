@@ -1,2 +1,5 @@
-   mkdir ChefAtHandsUtilityServices
-   cd ChefAtHandsUtilityServices
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- Use Spring Boot's default Logback setup -->
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+</configuration>

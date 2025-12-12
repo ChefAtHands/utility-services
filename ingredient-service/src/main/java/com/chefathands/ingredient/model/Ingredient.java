@@ -1,17 +1,17 @@
 package com.chefathands.ingredient.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import java.time.Instant;
  
 
 
 @Entity
-@Table(name = "ingredients")
+@Table(name = "Ingredients")
 public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ingredient_id")
+    @Column(name = "IngredientId")
     private Integer id;
     
     @NotBlank(message = "name must not be blank")

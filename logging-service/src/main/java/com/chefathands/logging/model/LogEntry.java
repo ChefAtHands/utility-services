@@ -1,15 +1,17 @@
 package com.chefathands.logging.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.Instant;
 
 @Entity
+@Table(name = "log_entry")
 public class LogEntry {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String level;
     private String message;
+    @Column(name = "created", columnDefinition = "datetime2")
     private Instant created = Instant.now();
 
     public LogEntry() {}
