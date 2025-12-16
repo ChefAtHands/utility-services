@@ -1,8 +1,12 @@
 package com.chefathands.ingredient.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import java.time.Instant;
  
 
 
@@ -11,7 +15,7 @@ import java.time.Instant;
 public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "IngredientId")
+    @Column(name = "IngredientID")
     private Integer id;
     
     @NotBlank(message = "name must not be blank")

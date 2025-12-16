@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.chefathands.ingredient.exception.ResourceNotFoundException;
 import com.chefathands.ingredient.model.Ingredient;
 import com.chefathands.ingredient.repository.IngredientRepository;
-import com.chefathands.ingredient.exception.ResourceNotFoundException;
 import com.chefathands.logging.service.LogService;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class IngredientService {
@@ -40,7 +42,8 @@ public class IngredientService {
     public List<Ingredient> findByNameContaining(String name) {
         return repo.findByNameContainingIgnoreCase(name);
     }
-
+    
+    @Transactional
     public void deleteById(Integer id) {
         repo.deleteById(id);
         logService.logWarn("ingredient deleted with id " + id);
