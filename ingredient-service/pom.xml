@@ -5,17 +5,13 @@
 
   <parent>
     <groupId>com.chefathands</groupId>
-    <artifactId>chefathands-parent</artifactId>
+    <artifactId>utility-services</artifactId>
     <version>0.1.0-SNAPSHOT</version>
-    <relativePath>../../pom.xml</relativePath>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <artifactId>ingredient-service</artifactId>
   <packaging>jar</packaging>
-
-  <properties>
-    <maven.compiler.source>${java.version}</maven.compiler.source>
-  </properties>
 
   <dependencies>
     <dependency>
