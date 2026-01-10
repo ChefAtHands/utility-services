@@ -17,6 +17,9 @@
     <module>ingredient-service</module>
     <module>logging-service</module>
     <module>user-service</module>
+    <module>favourites-service</module>
+    <module>history-service</module>
+    <module>notification-service</module>
   </modules>
 
   <properties>
@@ -26,7 +29,6 @@
 
   <dependencyManagement>
     <dependencies>
-      <!-- keep dependencyManagement here if you want centralized versions for utility services -->
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
