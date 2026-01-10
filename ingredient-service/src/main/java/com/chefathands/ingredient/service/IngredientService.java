@@ -3,34 +3,35 @@ package com.chefathands.ingredient.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.chefathands.ingredient.exception.ResourceNotFoundException;
 import com.chefathands.ingredient.model.Ingredient;
 import com.chefathands.ingredient.repository.IngredientRepository;
-import com.chefathands.logging.service.LogService;
 
 import jakarta.transaction.Transactional;
 
 @Service
 public class IngredientService {
-    private final IngredientRepository repo;
-    private final LogService logService;
+    private static final Logger logger = LoggerFactory.getLogger(IngredientService.class);
     
-    public IngredientService(IngredientRepository repo, LogService logService) { 
-        this.repo = repo; 
-        this.logService = logService;
+    private final IngredientRepository repo;
+    
+    public IngredientService(IngredientRepository repo) { 
+        this.repo = repo;
     }
 
     public Ingredient save(Ingredient i) { 
         Ingredient saved = repo.save(i);
-        logService.logInfo("ingredient saved: " + saved.getName() + "(id=" + saved.getId()+ ")");
+        logger.info("ingredient saved: {} (id={})", saved.getName(), saved.getId());
         return saved; 
     }
     
-      public Ingredient findById(Integer id) {
+    public Ingredient findById(Integer id) {
         return repo.findById(id)
             .orElseThrow(() -> {
-                logService.logError("Ingredient not found with id " + id);
+                logger.error("Ingredient not found with id {}", id);
                 return new ResourceNotFoundException("Ingredient not found with id " + id);
             });
     }
@@ -46,7 +47,6 @@ public class IngredientService {
     @Transactional
     public void deleteById(Integer id) {
         repo.deleteById(id);
-        logService.logWarn("ingredient deleted with id " + id);
+        logger.warn("ingredient deleted with id {}", id);
     }
-
 }

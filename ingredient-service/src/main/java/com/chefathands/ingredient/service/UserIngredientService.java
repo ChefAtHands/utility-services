@@ -2,21 +2,21 @@ package com.chefathands.ingredient.service;
 
 import com.chefathands.ingredient.model.UserIngredient;
 import com.chefathands.ingredient.repository.UserIngredientRepository;
-import com.chefathands.logging.service.LogService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 @Service
 public class UserIngredientService {
+    private static final Logger logger = LoggerFactory.getLogger(UserIngredientService.class);
     
     private final UserIngredientRepository repository;
-    private final LogService logService;
     
-    public UserIngredientService(UserIngredientRepository repository, LogService logService) {
+    public UserIngredientService(UserIngredientRepository repository) {
         this.repository = repository;
-        this.logService = logService;
     }
     
     public List<UserIngredient> getUserIngredients(Integer userId) {
@@ -26,25 +26,25 @@ public class UserIngredientService {
     @Transactional
     public UserIngredient addUserIngredient(UserIngredient userIngredient) {
         UserIngredient saved = repository.save(userIngredient);
-        logService.logInfo("UserIngreddient added for UserId=" + saved.getUserId() + ", ingredientId=" + saved.getIngredientId());
+        logger.info("UserIngredient added for UserId={}, ingredientId={}", saved.getUserId(), saved.getIngredientId());
         return saved;
     }
     
     @Transactional
     public void removeUserIngredient(Integer userId, Integer userIngredientId) {
         UserIngredient userIngredient = repository.findById(userIngredientId)
-            .orElseThrow(() ->{
-                logService.logError("Remove failed: UserIngredient not found id=" + userIngredientId);
+            .orElseThrow(() -> {
+                logger.error("Remove failed: UserIngredient not found id={}", userIngredientId);
                 return new RuntimeException("User ingredient not found");
-                });
+            });
         
         if (!userIngredient.getUserId().equals(userId)) {
-            logService.logError("Unauthorized remove attempt: userId=" + userId + " tried to remove ingredientId=" + userIngredientId);
+            logger.error("Unauthorized remove attempt: userId={} tried to remove ingredientId={}", userId, userIngredientId);
             throw new RuntimeException("Not authorized");
         }
         
         repository.delete(userIngredient);
-        logService.logWarn("userIngredient removed: id=" + userIngredientId + " by userId=" + userId);
+        logger.warn("userIngredient removed: id={} by userId={}", userIngredientId, userId);
     }
     
     @Transactional
