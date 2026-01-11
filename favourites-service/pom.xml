@@ -12,10 +12,10 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     
-    <artifactId>favorites-service</artifactId>
+    <artifactId>favourites-service</artifactId>
     <packaging>jar</packaging>
     
-    <name>Favorites Service Mock</name>
+    <name>Favourites Service Mock</name>
     
     <dependencies>
         <dependency>
