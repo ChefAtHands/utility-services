@@ -1,4 +1,4 @@
-package com.chefathands.favorites.controller;
+package com.chefathands.favourites.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
